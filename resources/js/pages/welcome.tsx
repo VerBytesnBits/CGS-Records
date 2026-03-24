@@ -4,7 +4,7 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import CarCertifica from "../components/CarCertifica";
 import CarCertificate from "../components/CarCertificate";
-import Certificate from "@/components/Certificate";
+import CarRating from "@/components/CarRating";
 export default function Welcome() {
     const { auth } = usePage().props as any;
     const [scrolled, setScrolled] = useState(false);
@@ -592,6 +592,7 @@ export default function Welcome() {
 
             <CarCertificate />
             <CarCertifica />
+            <CarRating />
             {/* FOOTER */}
             <footer className="footer">
                 © {new Date().getFullYear()} <span>College of Graduate Studies</span> — Palompon Institute of Technology
