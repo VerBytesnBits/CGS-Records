@@ -1,0 +1,352 @@
+.car-cert-wrapper {
+    max-width: 760px;
+    margin: 40px auto;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.20);
+}
+
+.car-certificate {
+    position: relative;
+    background: #fff;
+    width: 100%;
+    aspect-ratio: 8.5 / 11;
+    overflow: hidden;
+    
+}
+
+.car-bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../IMAGE/cert.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: top left;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ─── CONTENT LAYER ─── */
+.car-content {
+    position: absolute;
+    top:    3%;
+    left:   9%;
+    right:  9%;
+    bottom: 3.5%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ─── HEADER ─── */
+.car-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-shrink: 0;
+    padding-top: 11.5%;
+}
+
+.car-logo-left {
+    width: 11%;
+    aspect-ratio: 1;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.car-logo-right {
+    width: 11.5%;
+    aspect-ratio: 1;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.car-header-text {
+    text-align: center;
+    flex: 1;
+    padding: 0 6px;
+    line-height: 1.5;
+    font-family: 'Maiandra GD', Georgia, serif;
+    font-size: clamp(7.5px, 1.45vw, 12.5px);
+}
+
+.car-republic  { margin: 0; }
+.car-institute { font-weight: bold; margin: 0; }
+.car-location  { margin: 0; }
+.car-college   { font-weight: bold; margin-top: 5px; display: block; }
+
+/* ─── TITLE ─── */
+.car-title-block {
+    flex-shrink: 0;
+    text-align: center;
+    width: 100%;
+    margin-top: 1%;
+    margin-bottom: 0;
+}
+
+.car-title-text {
+    font-family: 'Maiandra GD', Georgia, serif;
+    font-weight: bold;
+    font-size: clamp(16px, 3vw, 26px);
+    letter-spacing: clamp(1px, 0.3vw, 4px);
+    color: #000;
+    line-height: 1;
+    margin: 0;
+    padding-top: 12.5%;
+}
+
+/* ─── BODY — centered in remaining space, pushed slightly up ─── */
+.car-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 10%; /* shifts content up from dead-center */
+}
+
+.car-given-to {
+    font-family: 'Maiandra GD', Georgia, serif;
+    font-size: clamp(7.5px, 1.45vw, 12.5px);
+    margin: 0 0 1% 0;
+    line-height: 1.4;
+    margin-top: 6.5%;
+    padding-bottom: 4.5%;
+}
+
+.car-name {
+    font-family: 'Bookman Old Style', Georgia, serif;
+    font-weight: bold;
+    font-size: clamp(14px, 2.6vw, 22px);
+    letter-spacing: 0.5px;
+    color: #000;
+    margin: 0 0 2.5% 0;
+    line-height: 1.2;
+}
+
+.car-para1,
+.car-para2 {
+    font-family: 'Maiandra GD', Georgia, serif;
+    font-size: 14pt;
+    line-height: 1.75;
+    margin: 0 0 1.5% 0;
+    text-align: center;
+    width: 100%;
+}
+
+.car-para2 {
+    padding-top: 3.5%;
+}
+
+
+.car-issue {
+    font-family: 'Maiandra GD', Georgia, serif;
+    font-size: clamp(7.5px, 1.45vw, 12.5px);
+    line-height: 1.75;
+    margin: 0.5% 0 0 0;
+    text-align: center;
+    padding-top: 4.5%;
+}
+
+/* ─── SIGNATURE ─── */
+.car-signature {
+    flex-shrink: 0;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2.5%;
+}
+
+.car-sig-name {
+    font-family: 'Maiandra GD', Georgia, serif;
+    font-weight: bold;
+    font-size: clamp(9px, 1.6vw, 14px);
+    line-height: 1.45;
+    margin: 0;
+}
+
+.car-sig-title {
+    font-family: 'Maiandra GD', Georgia, serif;
+    font-size: clamp(9px, 1.6vw, 14px);
+    line-height: 1.45;
+    margin: 0;
+}
+
+.car-footer {
+    flex-shrink: 0;
+    text-align: left;
+    width: 100%;
+    padding-bottom: 0.5%;
+    margin-bottom: 3%;   /* ← ADD THIS — raises it up on screen */
+}
+
+.cert-foot {
+    position: relative;
+    z-index: 1;
+    margin-top: 20px;
+    page-break-inside: avoid; /* Prevent breaking inside footer */
+    page-break-before: avoid; /* Keep with signature */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align to left */
+}
+
+.car-not-valid {
+    font-size: clamp(5.5px, 0.78vw, 8px);
+    margin: 0 0 2px 0;
+    font-family: 'Maiandra GD', Georgia, serif;
+}
+
+/* BASE — on-screen (matches your screenshot 1) */
+.car-stamp-box {
+    border: 1.5px solid #000;
+    padding: 8px 12px;          /* was 12px — too large */
+    width: 160px;   /* was 220px — too wide */
+    font-size: clamp(5.5px, 0.78vw, 8px);
+    line-height: 1.55;
+    background: rgba(255,255,255,0.80);
+    font-family: 'Maiandra GD', Georgia, serif;
+    margin: 0;
+    page-break-inside: avoid;
+    page-break-after: avoid;
+}
+
+.certificate-controls {
+    display: flex;
+    justify-content: center;  /* center horizontally */
+    gap: 12px;                /* space between buttons */
+    margin-bottom: 20px;      /* space below controls */
+    flex-wrap: wrap;           /* wrap on smaller screens */
+}
+
+.certificate-controls .btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-family: 'Maiandra GD', Georgia, serif;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.btn-edit {
+    background-color: #4caf50; /* green */
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #45a049;
+}
+
+.btn-print {
+    background-color: #2196f3; /* blue */
+    color: white;
+}
+
+.btn-print:hover {
+    background-color: #1e88e5;
+}
+
+.btn-reset {
+    background-color: #f44336; /* red */
+    color: white;
+}
+
+.btn-reset:hover {
+    background-color: #d32f2f;
+}
+
+.certificate-controls .btn i {
+    font-size: 14px; /* icon size */
+}
+
+/* Overlay background */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* semi-transparent dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Modal box */
+.modal-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  position: relative;
+  animation: slideDown 0.3s ease;
+}
+
+/* Form inside modal */
+.modal-form input {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Modal buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-save {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-save:hover {
+  background-color: #45a049;
+}
+
+.btn-cancel {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #d32f2f;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
