@@ -26,7 +26,7 @@
     pointer-events: none;
 
     /* 🎯 Visual tuning */
-    opacity: 0.08;
+    opacity: 0.15;
     /* lighter */
     filter:
         hue-rotate(20deg)
@@ -123,11 +123,11 @@
     align-items: justify;
     justify-content: flex-start;
     /* change from center */
-    font-family: 'bookmanoldstyle';
+    font-family: 'BookManOldStyle';
 }
 
 .cert-given-to {
-    font-family: 'bookmanoldstyle';
+    font-family: 'BookManOldStyle';
     font-size: clamp(7.5px, 1.45vw, 12.5px);
     margin: 0 0 1% 0;
     line-height: 1.4;
@@ -137,7 +137,7 @@
 }
 
 .cert-name {
-    font-family: 'bookmanoldstyle';
+    font-family: 'BookManOldStyle';
     font-weight: bold;
     font-size: clamp(14px, 2.6vw, 22px);
     letter-spacing: 0.5px;
@@ -170,12 +170,12 @@ p.cert-para1 {
 
 
 .cert-issue {
-    font-family: 'bookmanoldstyle';
+    font-family: 'BookManOldStyle';
     font-size: 12pt;
     line-height: 1.2;
     margin: 0.5% 0 0 0;
     text-align: justify;
-    text-indent: 40px;
+    text-indent: 50px;
 }
 
 /* ─── SIGNATURE ─── */
@@ -189,14 +189,14 @@ p.cert-para1 {
 .cert-sig-name {
     font-family: 'BookManOldStyleBold';
     font-weight: bold;
-    font-size: clamp(9px, 1.6vw, 14px);
-    line-height: 1.45;
+    font-size: 12pt;
+    line-height: 3;
     margin: 0;
 }
 
 .cert-sig-title {
     font-family: 'BookManOldStyle';
-    font-size: clamp(9px, 1.6vw, 14px);
+    font-size: 12pt;
     line-height: 1.45;
     margin: 0;
     padding-bottom: 15%;
@@ -258,17 +258,7 @@ p.cert-para1 {
     page-break-after: avoid;
 }
 
-.certificate-controls {
-    display: flex;
-    justify-content: center;
-    /* center horizontally */
-    gap: 12px;
-    /* space between buttons */
-    margin-bottom: 20px;
-    /* space below controls */
-    flex-wrap: wrap;
-    /* wrap on smaller screens */
-}
+
 
 .certificate-controls .btn {
     display: flex;
@@ -285,133 +275,371 @@ p.cert-para1 {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
+.certificate-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 0.5px solid;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.2px;
+    font-family: inherit;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn i {
+    font-size: 14px;
+}
+
 .btn-edit {
-    background-color: #4caf50;
-    /* green */
-    color: white;
+    background: #E6F1FB;
+    color: #0C447C;
+    border-color: #85B7EB;
 }
 
 .btn-edit:hover {
-    background-color: #45a049;
+    background: #B5D4F4;
 }
 
 .btn-print {
-    background-color: #2196f3;
-    /* blue */
-    color: white;
+    background: #EAF3DE;
+    color: #27500A;
+    border-color: #97C459;
 }
 
 .btn-print:hover {
-    background-color: #1e88e5;
+    background: #C0DD97;
 }
 
 .btn-reset {
-    background-color: #f44336;
-    /* red */
-    color: white;
+    background: #FCEBEB;
+    color: #791F1F;
+    border-color: #F09595;
 }
 
 .btn-reset:hover {
-    background-color: #d32f2f;
+    background: #F7C1C1;
 }
 
-.certificate-controls .btn i {
-    font-size: 14px;
-    /* icon size */
-}
-
-/* Overlay background */
+/* ─── MODAL OVERLAY ─── */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
-    /* semi-transparent dark background */
+    background: rgba(0, 0, 0, 0.55);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    animation: fadeIn 0.3s ease;
-}
-
-/* Modal box */
-.modal-content {
-    background: #fff;
-    padding: 30px 25px;
-    border-radius: 10px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    position: relative;
-    animation: slideDown 0.3s ease;
-}
-
-/* Form inside modal */
-.modal-form input {
-    width: 100%;
-    padding: 10px 12px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    animation: fadeIn 0.2s ease;
+    padding: 20px;
     box-sizing: border-box;
 }
 
-/* Modal buttons */
-.modal-buttons {
+/* ─── MODAL BOX ─── */
+.modal-content {
+    background: #fff;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 960px;
+    max-height: 92vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22);
+    display: flex;
+    flex-direction: column;
+    animation: slideDown 0.25s ease;
+}
+
+/* ─── MODAL HEADER ─── */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 40px 22px;
+    border-bottom: 2px solid #f0f0f0;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+    border-radius: 14px 14px 0 0;
+}
+
+.modal-header h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-header h2 i {
+    font-size: 22px;
+    color: #185FA5;
+}
+
+.modal-close {
+    font-size: 32px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.modal-close:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+/* ─── MODAL BODY ─── */
+.modal-body {
+    padding: 32px 40px;
+    flex: 1;
+}
+
+/* ─── FORM SECTION ─── */
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1.5px solid #f0f0f0;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* ─── FORM ROW ─── */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 20px;
+}
+
+/* ─── FORM GROUP ─── */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group label i {
+    font-size: 18pt;
+    color: #185FA5;
+}
+
+.form-group input,
+.form-group select {
+    padding: 14px 16px;
+    border: 2px solid #dde1e7;
+    border-radius: 10px;
+    font-size: 17pt;
+    color: #111;
+    background: #fafafa;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #378ADD;
+    box-shadow: 0 0 0 4px rgba(55, 138, 221, 0.15);
+    background: #fff;
+}
+
+.form-group input:disabled {
+    background: #efefef;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+/* ─── PROGRAM INPUT GROUP ─── */
+.program-input-group {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.program-input-group select {
+    flex: 1;
+}
+
+select#title{
+    margin: 8px 0;
+}
+.btn-add-program {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 18px;
+    background: #E6F1FB;
+    color: #0C447C;
+    border: 2px solid #85B7EB;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+    font-family: inherit;
+}
+
+.btn-add-program:hover {
+    background: #B5D4F4;
+}
+
+/* ─── CHECKBOX GROUP ─── */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #185FA5;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.checkbox-group label {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #444 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    cursor: pointer;
+}
+
+/* ─── MODAL FOOTER ─── */
+.modal-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 15px;
+    gap: 12px;
+    padding: 20px 40px 26px;
+    border-top: 1.5px solid #f0f0f0;
+    background: #fafafa;
+    border-radius: 0 0 14px 14px;
+    margin-top: 0;
 }
 
-.btn-save {
-    background-color: #4CAF50;
-    color: white;
+/* ─── BUTTONS ─── */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: #185FA5;
+    color: #fff;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    font-family: inherit;
 }
 
-.btn-save:hover {
-    background-color: #45a049;
+.btn-primary:hover {
+    background: #0C447C;
 }
 
-.btn-cancel {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+.btn-primary:active {
+    transform: scale(0.97);
+}
+
+.btn-primary i {
+    font-size: 15px;
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: #fff;
+    color: #444;
+    border: 2px solid #dde1e7;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    font-family: inherit;
 }
 
-.btn-cancel:hover {
-    background-color: #d32f2f;
+.btn-secondary:hover {
+    background: #f5f5f5;
 }
 
-/* Animations */
+.btn-secondary:active {
+    transform: scale(0.97);
+}
+
+.issue-date-display {
+    padding: 12px 14px;
+    border: 2px solid #dde1e7;
+    border-radius: 10px;
+    font-size: 17px;
+    color: #111;
+    background: #f0f0f0;
+    font-family: inherit;
+}
+
+.issue-date-display sup {
+    font-size: 0.6em;
+    vertical-align: middle;
+}
+
+/* ─── ANIMATIONS ─── */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 @keyframes slideDown {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(-16px); opacity: 0; }
+    to   { transform: translateY(0);     opacity: 1; }
 }

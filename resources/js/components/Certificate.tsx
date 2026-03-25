@@ -2,18 +2,28 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Certificate.css";
 
+
+interface OrdinalDate {
+    day: number;
+    suffix: string;
+    month: string;
+    year: number;
+}
+
 interface CertificateData {
     title: string;
     firstName: string;
     middleInitial: string;
     lastName: string;
     program: string;
-    major: string;
-    semester: string;
-    schoolYear: string;
+    semesterStart: string;
+    semesterEnd: string;
+    untilPresent: boolean;
     units: string;
-    issueDate: string;
+    issueDate: OrdinalDate;
 }
+
+
 
 const getOrdinalDate = () => {
     const date = new Date();
@@ -26,11 +36,9 @@ const getOrdinalDate = () => {
                 : day % 10 === 3 && day !== 13
                     ? "rd"
                     : "th";
-
     const month = date.toLocaleString("default", { month: "long" });
     const year = date.getFullYear();
-
-    return `${day}${suffix} day of ${month}, ${year}`;
+    return { day, suffix, month, year };
 };
 
 const defaultData: CertificateData = {
@@ -38,17 +46,23 @@ const defaultData: CertificateData = {
     firstName: "Ana Marie",
     middleInitial: "M.",
     lastName: "Ardeño",
-    program: "Master of Arts in Education",
-    major: "English",
-    semester: "1st Semester",
-    schoolYear: "S.Y. 2025-2026",
+    program: "Master of Arts in Education major in English",
+    semesterStart: "1st Semester, S.Y. 2025-2026",
+    semesterEnd: "",
+    untilPresent: false,
     units: "6",
-    issueDate: getOrdinalDate(),
+    issueDate: { day: 0, suffix: "", month: "", year: 0 },
 };
 
 const Certificate: React.FC = () => {
-    const [data, setData] = useState<CertificateData>(defaultData);
+     const [data, setData] = useState<CertificateData>(() => ({
+        ...defaultData,
+        issueDate: getOrdinalDate(),
+    }));
     const [showModal, setShowModal] = useState(false);
+    const [showAddProgramModal, setShowAddProgramModal] = useState(false);
+    const [customPrograms, setCustomPrograms] = useState<string[]>([]);
+    const [newProgram, setNewProgram] = useState("");
 
     useEffect(() => {
         fetchData();
@@ -66,8 +80,13 @@ const Certificate: React.FC = () => {
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
-        const { name, value } = e.target;
-        setData({ ...data, [name]: value });
+        const { name, value, type } = e.target;
+        if (type === "checkbox") {
+            const checked = (e.target as HTMLInputElement).checked;
+            setData({ ...data, [name]: checked });
+        } else {
+            setData({ ...data, [name]: value });
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,7 +99,21 @@ const Certificate: React.FC = () => {
         }
     };
 
-    const resetToDefault = () => setData(defaultData);
+    const handleAddProgram = () => {
+        if (newProgram.trim()) {
+            setCustomPrograms([...customPrograms, newProgram.trim()]);
+            setData({ ...data, program: newProgram.trim() });
+            setNewProgram("");
+            setShowAddProgramModal(false);
+        }
+    };
+
+
+
+    const resetToDefault = () => setData({
+        ...defaultData,
+        issueDate: getOrdinalDate(),
+    });
 
     const printCertificate = () => {
         const target = document.getElementById("CertificatePreview");
@@ -165,7 +198,7 @@ const Certificate: React.FC = () => {
         background-size: 70% 70% !important;
         background-repeat: no-repeat !important;
         background-position: center !important;
-        opacity: 0.08 !important;
+        opacity: 0.15 !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
@@ -227,7 +260,7 @@ const Certificate: React.FC = () => {
 
     .cert-issue {
         font-size: 12pt !important;
-        text-indent: 40px !important;
+        text-indent: 50px !important;
     }
 
     .cert-signature {
@@ -263,21 +296,20 @@ const Certificate: React.FC = () => {
         window.print();
         document.head.removeChild(style);
     };
-
     const fullName = `${data.title} ${data.firstName} ${data.middleInitial} ${data.lastName}`;
-
+   
     return (
         <>
             {/* Controls */}
             <div className="certificate-controls">
                 <button className="btn btn-edit" onClick={() => setShowModal(true)}>
-                    Edit
+                    <i className="fas fa-edit"></i> Edit
                 </button>
                 <button className="btn btn-print" onClick={printCertificate}>
-                    Print
+                    <i className="fas fa-print"></i> Print
                 </button>
                 <button className="btn btn-reset" onClick={resetToDefault}>
-                    Reset
+                    <i className="fas fa-undo"></i> Reset
                 </button>
             </div>
 
@@ -287,18 +319,18 @@ const Certificate: React.FC = () => {
                     <div className="watermark"></div>
                     <div className="cert-content">
                         <div className="cert-header">
-                            <img src="/IMAGE/pit_logo.jpg" className="logo-left" />
-
+                            <img src="/IMAGE/pit_logo.jpg" className="logo-left" alt="PIT Logo" />
                             <div className="cert-header-text">
                                 <p className="cert-republic">Republic of the Philippines</p>
                                 <p className="cert-institute">PALOMPON INSTITUTE OF TECHNOLOGY</p>
                                 <p className="cert-location">Palompon, Leyte</p>
                                 <p className="cert-college">COLLEGE OF GRADUATE STUDIES</p>
                             </div>
-
-                            <img src="/IMAGE/nobg_cgs.png" className="logo-right" />
+                            <img src="/IMAGE/nobg_cgs.png" className="logo-right" alt="CGS Logo" />
                         </div>
+
                         <div className="cert-head"><strong>CERTIFICATION</strong></div>
+
                         {/* BODY */}
                         <div className="cert-body">
                             <p className="cert-para1">
@@ -306,31 +338,61 @@ const Certificate: React.FC = () => {
                             </p>
 
                             <p className="cert-para2">
-                                THIS IS TO CERTIFY that, <strong>{fullName}</strong> is a
-                                graduate student in this institution under the{" "}
-                                <strong>{data.program}</strong> major in{" "}
-                                <strong>{data.major}</strong> program since{" "}
-                                <strong>
-                                    {data.semester}, {data.schoolYear}
-                                </strong>.
+                                THIS IS TO CERTIFY that,{" "}
+                                <strong style={{ fontFamily: "BookmanOldStyleBold" }}>
+                                    {fullName}
+                                </strong>{" "}
+                                is a graduate student in this institution under the{" "}
+                                <strong style={{ fontFamily: "BookmanOldStyleBold" }}>
+                                    {data.program}
+                                </strong>{" "}
+                                program since{" "}
+                                <strong style={{ fontFamily: "BookmanOldStyleBold" }}>
+                                    {data.semesterStart}
+                                </strong>
+                                {data.untilPresent ? (
+                                    <strong style={{ fontFamily: "BookmanOldStyleBold" }}> up to present</strong>
+                                ) : data.semesterEnd ? (
+                                    <>
+                                        {" "}to{" "}
+                                        <strong style={{ fontFamily: "BookmanOldStyleBold" }}>
+                                            {data.semesterEnd}
+                                        </strong>
+                                    </>
+                                ) : null}.
                             </p>
 
                             <p className="cert-para2">
-                                This is to certify further, that she has obtained{" "}
-                                <strong>{data.units} units</strong> of the said program/degree.
+                                This is to certify further, that{" "}
+
+                                {data.title === "Mr." ? "he" : "she"}
+                                {" "}
+                                has obtained{" "}
+                                <strong style={{ fontFamily: "BookmanOldStyleBold" }}>
+                                    {data.units} units
+                                </strong>{" "}
+                                of the said program/degree.
                             </p>
 
                             <p className="cert-para2">
                                 This certification is issued to{" "}
-                                <strong>
+                                <strong style={{ fontFamily: "BookmanOldStyleBold" }}>
                                     {data.title} {data.lastName}
                                 </strong>{" "}
-                                for whatever legal purpose it may serve her best.
+                                for whatever legal purpose it may serve{" "}
+                                {data.title === "Mr." ? "him" : "her"} best.
                             </p>
 
                             <p className="cert-issue">
-                                Issued this <strong>{data.issueDate}</strong> at the Palompon
-                                Institute of Technology, Palompon, Leyte.
+                                Issued this{" "}
+                                <strong style={{ fontFamily: "Bookman Old Style" }}>
+                                    {data.issueDate.day}
+                                    <sup style={{ fontSize: "0.6em", verticalAlign: "middle", fontFamily: "Bookman Old Style" }}>
+                                        {data.issueDate.suffix}
+                                    </sup>
+                                    {" "}day of {data.issueDate.month}, {data.issueDate.year}
+                                </strong>{" "}
+                                at the Palompon Institute of Technology, Palompon, Leyte.
                             </p>
                         </div>
 
@@ -341,6 +403,7 @@ const Certificate: React.FC = () => {
                                 <p className="cert-sig-title">Dean, CGS</p>
                             </div>
                         </div>
+
                         {/* FOOTER */}
                         <div className="cert-footer">
                             <p className="cert-not-valid">NOT VALID WITHOUT SEAL</p>
@@ -353,87 +416,251 @@ const Certificate: React.FC = () => {
                 </div>
             </div>
 
-            {/* MODAL */}
+            {/* EDIT MODAL */}
             {showModal && (
-                <div
-                    className="modal-overlay"
-                    onClick={() => setShowModal(false)}
-                >
-                    <div
-                        className="modal-content"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <h2>Edit Certificate</h2>
+                <div className="modal-overlay" onClick={() => setShowModal(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2><i className="fas fa-edit"></i> Edit Certificate Information</h2>
+                            <span className="modal-close" onClick={() => setShowModal(false)}>&times;</span>
+                        </div>
 
-                        <form onSubmit={handleSubmit} className="modal-form">
-                            <input
-                                name="firstName"
-                                value={data.firstName}
-                                onChange={handleChange}
-                                placeholder="First Name"
-                            />
-                            <input
-                                name="middleInitial"
-                                value={data.middleInitial}
-                                onChange={handleChange}
-                                placeholder="Middle Initial"
-                            />
-                            <input
-                                name="lastName"
-                                value={data.lastName}
-                                onChange={handleChange}
-                                placeholder="Last Name"
-                            />
-                            <input
-                                name="program"
-                                value={data.program}
-                                onChange={handleChange}
-                                placeholder="Program"
-                            />
-                            <input
-                                name="major"
-                                value={data.major}
-                                onChange={handleChange}
-                                placeholder="Major"
-                            />
-                            <input
-                                name="semester"
-                                value={data.semester}
-                                onChange={handleChange}
-                                placeholder="Semester"
-                            />
-                            <input
-                                name="schoolYear"
-                                value={data.schoolYear}
-                                onChange={handleChange}
-                                placeholder="School Year"
-                            />
-                            <input
-                                name="units"
-                                value={data.units}
-                                onChange={handleChange}
-                                placeholder="Units"
-                            />
-                            <input
-                                name="issueDate"
-                                value={data.issueDate}
-                                onChange={handleChange}
-                                placeholder="Issue Date"
-                            />
+                        <div className="modal-body">
+                            <form onSubmit={handleSubmit} className="modal-form">
 
-                            <div className="modal-buttons">
-                                <button type="submit" className="btn btn-save">
-                                    Save
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-cancel"
-                                    onClick={() => setShowModal(false)}
-                                >
-                                    Cancel
-                                </button>
+                                {/* FULL NAME */}
+                                <div className="form-section">
+                                    <div className="form-row">
+                                        <div className="form-group">
+                                            <label htmlFor="title">
+                                                <i className="fas fa-venus-mars"></i> Title
+                                            </label>
+                                            <select
+                                                id="title"
+                                                name="title"
+                                                value={data.title}
+                                                onChange={handleChange}
+                                                required
+                                            >
+                                                <option value="Ms.">Ms.</option>
+                                                <option value="Mr.">Mr.</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="firstName">
+                                                <i className="fas fa-user"></i> First Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="firstName"
+                                                name="firstName"
+                                                value={data.firstName}
+                                                onChange={handleChange}
+                                                placeholder="Ana Marie"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="middleInitial">
+                                                <i className="fas fa-user"></i> Middle Initial
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="middleInitial"
+                                                name="middleInitial"
+                                                value={data.middleInitial}
+                                                onChange={handleChange}
+                                                placeholder="M."
+                                                maxLength={2}
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="lastName">
+                                                <i className="fas fa-user"></i> Last Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="lastName"
+                                                name="lastName"
+                                                value={data.lastName}
+                                                onChange={handleChange}
+                                                placeholder="Ardeño"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* PROGRAM */}
+                                <div className="form-section">
+                                    <div className="form-group">
+                                        <label htmlFor="program">
+                                            <i className="fas fa-book"></i> Program / Degree
+                                        </label>
+                                        <div className="program-input-group">
+                                            <select
+                                                id="program"
+                                                name="program"
+                                                value={data.program}
+                                                onChange={handleChange}
+                                                required
+                                            >
+                                                <option value="">Select a program...</option>
+                                                <option value="Master of Arts in Education major in English">Master of Arts in Education major in English</option>
+                                                <option value="Master of Arts in Education major in Mathematics">Master of Arts in Education major in Mathematics</option>
+                                                <option value="Master of Arts in Education major in Filipino">Master of Arts in Education major in Filipino</option>
+                                                <option value="Master of Arts in Education major in Social Studies">Master of Arts in Education major in Social Studies</option>
+                                                <option value="Master in Public Administration">Master in Public Administration</option>
+                                                <option value="Master of Business Administration">Master of Business Administration</option>
+                                                {customPrograms.map((p, i) => (
+                                                    <option key={i} value={p}>{p}</option>
+                                                ))}
+                                            </select>
+                                            <button
+                                                type="button"
+                                                className="btn-add-program"
+                                                onClick={() => setShowAddProgramModal(true)}
+                                            >
+                                                <i className="fas fa-plus"></i> Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* ACADEMIC DETAILS */}
+                                <div className="form-section">
+                                    <div className="form-row">
+                                        <div className="form-group">
+                                            <label htmlFor="semesterStart">
+                                                <i className="fas fa-calendar"></i> Start Semester & School Year
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="semesterStart"
+                                                name="semesterStart"
+                                                value={data.semesterStart}
+                                                onChange={handleChange}
+                                                placeholder="1st Semester, S.Y. 2025–2026"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="semesterEnd">
+                                                <i className="fas fa-calendar"></i> End Semester & School Year
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="semesterEnd"
+                                                name="semesterEnd"
+                                                value={data.semesterEnd}
+                                                onChange={handleChange}
+                                                placeholder="Summer, S.Y. 2026-2027"
+                                                disabled={data.untilPresent}
+                                            />
+                                            <div className="checkbox-group">
+                                                <input
+                                                    type="checkbox"
+                                                    id="untilPresent"
+                                                    name="untilPresent"
+                                                    checked={data.untilPresent}
+                                                    onChange={handleChange}
+                                                />
+                                                <label htmlFor="untilPresent">Until at present</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="form-row">
+                                        <div className="form-group">
+                                            <label htmlFor="units">
+                                                <i className="fas fa-graduation-cap"></i> Units Completed
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="units"
+                                                name="units"
+                                                value={data.units}
+                                                onChange={handleChange}
+                                                placeholder="6"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="issueDate">
+                                                <i className="fas fa-calendar-alt"></i> Issue Date
+                                            </label>
+                                            <div className="issue-date-display">
+                                                {data.issueDate.day}
+                                                <sup>{data.issueDate.suffix}</sup>
+                                                {" "}day of {data.issueDate.month}, {data.issueDate.year}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* FOOTER BUTTONS */}
+                                <div className="modal-footer">
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button type="submit" className="btn btn-primary">
+                                        <i className="fas fa-save"></i> Update Certificate
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ADD PROGRAM MODAL */}
+            {showAddProgramModal && (
+                <div className="modal-overlay" onClick={() => setShowAddProgramModal(false)}>
+                    <div className="modal-content modal-sm" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2><i className="fas fa-plus"></i> Add New Program</h2>
+                            <span className="modal-close" onClick={() => setShowAddProgramModal(false)}>&times;</span>
+                        </div>
+                        <div className="modal-body">
+                            <div className="form-group">
+                                <label htmlFor="newProgram">
+                                    <i className="fas fa-book"></i> Program Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="newProgram"
+                                    value={newProgram}
+                                    onChange={(e) => setNewProgram(e.target.value)}
+                                    placeholder="e.g. Master of Science in Information Technology"
+                                    autoFocus
+                                />
                             </div>
-                        </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => setShowAddProgramModal(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleAddProgram}
+                            >
+                                <i className="fas fa-plus"></i> Add Program
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
