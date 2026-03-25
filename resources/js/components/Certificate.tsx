@@ -20,14 +20,15 @@ interface CertificateData {
     semesterEnd: string;
     untilPresent: boolean;
     units: string;
-    issueDate: OrdinalDate;
+    issueDate: string;
 }
 
 
 
-const getOrdinalDate = () => {
-    const date = new Date();
+const formatOrdinalDate = (dateStr: string) => {
+    const date = new Date(dateStr);
     const day = date.getDate();
+
     const suffix =
         day % 10 === 1 && day !== 11
             ? "st"
@@ -36,10 +37,14 @@ const getOrdinalDate = () => {
                 : day % 10 === 3 && day !== 13
                     ? "rd"
                     : "th";
+
     const month = date.toLocaleString("default", { month: "long" });
     const year = date.getFullYear();
+
     return { day, suffix, month, year };
 };
+
+
 
 const defaultData: CertificateData = {
     title: "Ms.",
@@ -51,14 +56,16 @@ const defaultData: CertificateData = {
     semesterEnd: "",
     untilPresent: false,
     units: "6",
-    issueDate: { day: 0, suffix: "", month: "", year: 0 },
+    issueDate: new Date().toISOString().split("T")[0],
 };
 
 const Certificate: React.FC = () => {
-     const [data, setData] = useState<CertificateData>(() => ({
+   const [data, setData] = useState<CertificateData>(() => ({
         ...defaultData,
-        issueDate: getOrdinalDate(),
+        issueDate: new Date().toISOString().split("T")[0],
     }));
+
+    const formattedDate = formatOrdinalDate(data.issueDate);
     const [showModal, setShowModal] = useState(false);
     const [showAddProgramModal, setShowAddProgramModal] = useState(false);
     const [customPrograms, setCustomPrograms] = useState<string[]>([]);
@@ -110,9 +117,10 @@ const Certificate: React.FC = () => {
 
 
 
-    const resetToDefault = () => setData({
+    const resetToDefault = () =>
+    setData({
         ...defaultData,
-        issueDate: getOrdinalDate(),
+        issueDate: new Date().toISOString().split("T")[0],
     });
 
     const printCertificate = () => {
@@ -297,7 +305,7 @@ const Certificate: React.FC = () => {
         document.head.removeChild(style);
     };
     const fullName = `${data.title} ${data.firstName} ${data.middleInitial} ${data.lastName}`;
-   
+
     return (
         <>
             {/* Controls */}
@@ -382,18 +390,16 @@ const Certificate: React.FC = () => {
                                 for whatever legal purpose it may serve{" "}
                                 {data.title === "Mr." ? "him" : "her"} best.
                             </p>
-
                             <p className="cert-issue">
                                 Issued this{" "}
-                                <strong style={{ fontFamily: "Bookman Old Style" }}>
-                                    {data.issueDate.day}
-                                    <sup style={{ fontSize: "0.6em", verticalAlign: "middle", fontFamily: "Bookman Old Style" }}>
-                                        {data.issueDate.suffix}
-                                    </sup>
-                                    {" "}day of {data.issueDate.month}, {data.issueDate.year}
+                               <strong style={{ fontFamily: "Bookman Old Style" }}>
+                                    {formattedDate.day}
+                                    <sup>{formattedDate.suffix}</sup>
+                                    {" "}day of {formattedDate.month}, {formattedDate.year}
                                 </strong>{" "}
                                 at the Palompon Institute of Technology, Palompon, Leyte.
                             </p>
+                           
                         </div>
 
                         {/* SIGNATURE */}
@@ -594,11 +600,13 @@ const Certificate: React.FC = () => {
                                             <label htmlFor="issueDate">
                                                 <i className="fas fa-calendar-alt"></i> Issue Date
                                             </label>
-                                            <div className="issue-date-display">
-                                                {data.issueDate.day}
-                                                <sup>{data.issueDate.suffix}</sup>
-                                                {" "}day of {data.issueDate.month}, {data.issueDate.year}
-                                            </div>
+                                            <input
+                                                type="date"
+                                                id="issueDate"
+                                                name="issueDate"
+                                                value={data.issueDate}
+                                                onChange={handleChange}
+                                            />
                                         </div>
                                     </div>
                                 </div>
