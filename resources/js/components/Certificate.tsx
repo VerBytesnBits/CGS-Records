@@ -3,12 +3,6 @@ import axios from "axios";
 import "./Certificate.css";
 
 
-interface OrdinalDate {
-    day: number;
-    suffix: string;
-    month: string;
-    year: number;
-}
 
 interface CertificateData {
     title: string;
