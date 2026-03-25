@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import CarCertifica from "../components/CarCertifica";
 import CarCertificate from "../components/CarCertificate";
 import CarRating from "@/components/CarRating";
+import Certificate from "@/components/Certificate";
 export default function Welcome() {
     const { auth } = usePage().props as any;
     const [scrolled, setScrolled] = useState(false);
@@ -589,8 +590,8 @@ export default function Welcome() {
                     ))}
                 </div>
             </section>
-
-            <CarCertificate />
+            <Certificate />
+            {/* <CarCertificate /> */}
             <CarCertifica />
             <CarRating />
             {/* FOOTER */}

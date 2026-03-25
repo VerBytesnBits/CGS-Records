@@ -1,5 +1,12 @@
 @import 'tailwindcss';
-
+@font-face {
+    font-family: 'BookManOldStyle';
+    src: url('../fonts/bookmanoldstyle.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'BookManOldStyleBold';
+    src: url('../fonts/bookmanoldstyle_bold.ttf') format('truetype');
+}
 @plugin 'tailwindcss-animate';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

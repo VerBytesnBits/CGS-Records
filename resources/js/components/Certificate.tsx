@@ -1,189 +1,440 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Certificate.css";
 
-interface CertificateProps {
-    name: string;
+interface CertificateData {
+    title: string;
+    firstName: string;
+    middleInitial: string;
+    lastName: string;
     program: string;
-    startYear: string;
-    endYear: string;
+    major: string;
+    semester: string;
+    schoolYear: string;
     units: string;
     issueDate: string;
 }
 
-export default function Certificate({
-    name,
-    program,
-    startYear,
-    endYear,
-    units,
-    issueDate,
-}: CertificateProps) {
+const getOrdinalDate = () => {
+    const date = new Date();
+    const day = date.getDate();
+    const suffix =
+        day % 10 === 1 && day !== 11
+            ? "st"
+            : day % 10 === 2 && day !== 12
+                ? "nd"
+                : day % 10 === 3 && day !== 13
+                    ? "rd"
+                    : "th";
+
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+
+    return `${day}${suffix} day of ${month}, ${year}`;
+};
+
+const defaultData: CertificateData = {
+    title: "Ms.",
+    firstName: "Ana Marie",
+    middleInitial: "M.",
+    lastName: "Ardeño",
+    program: "Master of Arts in Education",
+    major: "English",
+    semester: "1st Semester",
+    schoolYear: "S.Y. 2025-2026",
+    units: "6",
+    issueDate: getOrdinalDate(),
+};
+
+const Certificate: React.FC = () => {
+    const [data, setData] = useState<CertificateData>(defaultData);
+    const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const res = await axios.get("/api/car-certificate");
+            if (res.data) setData(res.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            await axios.post("/api/car-certificate", data);
+            setShowModal(false);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const resetToDefault = () => setData(defaultData);
+
+    const printCertificate = () => {
+        const target = document.getElementById("carCertificatePreview");
+        if (!target) return;
+
+        const style = document.createElement("style");
+        style.innerHTML = `
+@media print {
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    @page {
+        size: letter portrait;
+        margin: 0;
+    }
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100% !important;
+        overflow: hidden !important;
+    }
+
+    body * { visibility: hidden !important; }
+
+    #CertificatePreview,
+    #CertificatePreview * {
+        visibility: visible !important;
+    }
+
+    #CertificatePreview {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    .cert-wrapper {
+        max-width: 760px !important;
+        height: 100vh !important;
+        margin: auto !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        page-break-inside: avoid !important;
+    }
+
+    .certificate {
+        position: relative !important;
+        width: 100% !important;
+        height: 100vh !important;        /* ← fills exactly one page */
+        background: #fff !important;
+        overflow: hidden !important;     /* ← clips anything that bleeds */
+        page-break-inside: avoid !important;
+        page-break-after: avoid !important;
+    }
+
+    /* scale down content to fit if needed */
+    .cert-content {
+        position: absolute !important;
+        top: 1in !important;
+        left: 1in !important;
+        right: 1in !important;
+        bottom: 1in !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        overflow: hidden !important;
+        transform-origin: top center !important;
+    }
+
+    .watermark {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 120% !important;
+        height: 70% !important;
+        background-size: 70% 70% !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        opacity: 0.08 !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .cert-header {
+        display: grid !important;
+        grid-template-columns: 90px 1fr 90px !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+
+    .cert-logo-left {
+        width: 75px !important;
+        justify-self: start !important;
+    }
+
+    .cert-logo-right {
+        width: 75px !important;
+        justify-self: end !important;
+    }
+
+    .cert-header-text {
+        text-align: center !important;
+        font-family: 'Bookman Old Style' !important;
+        font-size: 12pt !important;
+    }
+
+    .cert-title-text {
+        font-size: 26pt !important;
+        letter-spacing: 2px !important;
+        padding: 10% 0 !important;
+    }
+
+    .cert-body {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        width: 100% !important;
+        overflow: hidden !important;    /* ← stops body from pushing past page */
+    }
+
+    .cert-name {
+        font-weight: bold !important;
+        font-size: 22pt !important;
+    }
+
+    .cert-para1,
+    .cert-para2 {
+        font-size: 12pt !important;
+        text-align: justify !important;
+        line-height: 1.2 !important;
+    }
+
+    .cert-para2 {
+        text-indent: 50px !important;
+    }
+
+    .cert-issue {
+        font-size: 12pt !important;
+        text-indent: 40px !important;
+    }
+
+    .cert-signature {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        margin-top: 40px !important;
+    }
+
+    .cert-footer {
+        width: 100% !important;
+        margin-top: 10px !important;
+    }
+
+    .cert-stamp-box {
+        border: 1.5px solid #000 !important;
+        padding: 8px 12px !important;
+        width: 160px !important;
+        font-size: 8pt !important;
+        background: rgba(255,255,255,0.80) !important;
+    }
+
+    nav, footer, .certificate-controls {
+        display: none !important;
+    }
+}
+`;
+        document.head.appendChild(style);
+        window.print();
+        document.head.removeChild(style);
+    };
+
+    const fullName = `${data.title} ${data.firstName} ${data.middleInitial} ${data.lastName}`;
+
     return (
-        <div className="certificate-wrapper">
-            <div className="certificate">
-                {/* Header */}
-                <div className="header">
-                    <p>Republic of the Philippines</p>
-                    <h2>PALOMPON INSTITUTE OF TECHNOLOGY</h2>
-                    <p>Palompon, Leyte</p>
-                    <p className="college">COLLEGE OF GRADUATE STUDIES</p>
-                </div>
+        <>
+            {/* Controls */}
+            <div className="certificate-controls">
+                <button className="btn btn-edit" onClick={() => setShowModal(true)}>
+                    Edit
+                </button>
+                <button className="btn btn-print" onClick={printCertificate}>
+                    Print
+                </button>
+                <button className="btn btn-reset" onClick={resetToDefault}>
+                    Reset
+                </button>
+            </div>
 
-                {/* Title */}
-                <h1 className="title">CERTIFICATION</h1>
+            {/* Certificate Preview */}
+            <div id="CertificatePreview" className="cert-wrapper">
+                <div className="certificate">
+                    <div className="watermark"></div>
+                    <div className="cert-content">
+                        <div className="cert-header">
+                            <img src="/IMAGE/pit_logo.jpg" className="logo-left" />
 
-                {/* Body */}
-                <div className="content">
-                    <p><strong>TO WHOM IT MAY CONCERN:</strong></p>
+                            <div className="cert-header-text">
+                                <p className="cert-republic">Republic of the Philippines</p>
+                                <p className="cert-institute">PALOMPON INSTITUTE OF TECHNOLOGY</p>
+                                <p className="cert-location">Palompon, Leyte</p>
+                                <p className="cert-college">COLLEGE OF GRADUATE STUDIES</p>
+                            </div>
 
-                    <p>
-                        THIS IS TO CERTIFY that <strong>{name}</strong> is a graduate
-                        student in this institution under the <strong>{program}</strong>{" "}
-                        program since <strong>{startYear}</strong> until{" "}
-                        <strong>{endYear}</strong>.
-                    </p>
+                            <img src="/IMAGE/nobg_cgs.png" className="logo-right" />
+                        </div>
+                        <div className="cert-head"><strong>CERTIFICATION</strong></div>
+                        {/* BODY */}
+                        <div className="cert-body">
+                            <p className="cert-para1">
+                                <strong>TO WHOM IT MAY CONCERN:</strong>
+                            </p>
 
-                    <p>
-                        This is to certify further, that she has obtained{" "}
-                        <strong>{units} units</strong> of the said program/degree.
-                    </p>
+                            <p className="cert-para2">
+                                THIS IS TO CERTIFY that, <strong>{fullName}</strong> is a
+                                graduate student in this institution under the{" "}
+                                <strong>{data.program}</strong> major in{" "}
+                                <strong>{data.major}</strong> program since{" "}
+                                <strong>
+                                    {data.semester}, {data.schoolYear}
+                                </strong>.
+                            </p>
 
-                    <p>
-                        This certification is issued to <strong>{name}</strong> for
-                        whatever legal purpose it may serve her best.
-                    </p>
+                            <p className="cert-para2">
+                                This is to certify further, that she has obtained{" "}
+                                <strong>{data.units} units</strong> of the said program/degree.
+                            </p>
 
-                    <p className="issue">
-                        Issued this <strong>{issueDate}</strong> at the Palompon
-                        Institute of Technology, Palompon, Leyte.
-                    </p>
-                </div>
+                            <p className="cert-para2">
+                                This certification is issued to{" "}
+                                <strong>
+                                    {data.title} {data.lastName}
+                                </strong>{" "}
+                                for whatever legal purpose it may serve her best.
+                            </p>
 
-                {/* Signature */}
-                <div className="signature">
-                    <p className="name">JENNIFER A. GORUMBA, EdD</p>
-                    <p>Dean, CGS</p>
-                </div>
+                            <p className="cert-issue">
+                                Issued this <strong>{data.issueDate}</strong> at the Palompon
+                                Institute of Technology, Palompon, Leyte.
+                            </p>
+                        </div>
 
-                {/* Footer */}
-                <div className="footer">
-                    <p>NOT VALID WITHOUT SEAL</p>
-
-                    <div className="doc-box">
-                        <p>DOC STAMP PAID ₱30.00</p>
-                        <p>OR NO. ____________</p>
+                        {/* SIGNATURE */}
+                        <div className="cert-signature">
+                            <div className="sig-block">
+                                <p className="cert-sig-name">JENNIFER A. GORUMBA, EdD</p>
+                                <p className="cert-sig-title">Dean, CGS</p>
+                            </div>
+                        </div>
+                        {/* FOOTER */}
+                        <div className="cert-footer">
+                            <p className="cert-not-valid">NOT VALID WITHOUT SEAL</p>
+                            <div className="cert-stamp-box">
+                                <p>DOC STAMP PAID ₱ 30.00</p>
+                                <p>OR NO. _______________</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Styles */}
-            <style>{`
-    .certificate-wrapper {
-        background: #e5e5e5;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-    }
+            {/* MODAL */}
+            {showModal && (
+                <div
+                    className="modal-overlay"
+                    onClick={() => setShowModal(false)}
+                >
+                    <div
+                        className="modal-content"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h2>Edit Certificate</h2>
 
-    /* ✅ LETTER SIZE */
-    .certificate {
-        width: 8.5in;
-        height: 11in;
-        background: white;
-        padding: 1in;
-        font-family: "Times New Roman", serif;
-        position: relative;
-        box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        box-sizing: border-box;
-        overflow: hidden;
-    }
+                        <form onSubmit={handleSubmit} className="modal-form">
+                            <input
+                                name="firstName"
+                                value={data.firstName}
+                                onChange={handleChange}
+                                placeholder="First Name"
+                            />
+                            <input
+                                name="middleInitial"
+                                value={data.middleInitial}
+                                onChange={handleChange}
+                                placeholder="Middle Initial"
+                            />
+                            <input
+                                name="lastName"
+                                value={data.lastName}
+                                onChange={handleChange}
+                                placeholder="Last Name"
+                            />
+                            <input
+                                name="program"
+                                value={data.program}
+                                onChange={handleChange}
+                                placeholder="Program"
+                            />
+                            <input
+                                name="major"
+                                value={data.major}
+                                onChange={handleChange}
+                                placeholder="Major"
+                            />
+                            <input
+                                name="semester"
+                                value={data.semester}
+                                onChange={handleChange}
+                                placeholder="Semester"
+                            />
+                            <input
+                                name="schoolYear"
+                                value={data.schoolYear}
+                                onChange={handleChange}
+                                placeholder="School Year"
+                            />
+                            <input
+                                name="units"
+                                value={data.units}
+                                onChange={handleChange}
+                                placeholder="Units"
+                            />
+                            <input
+                                name="issueDate"
+                                value={data.issueDate}
+                                onChange={handleChange}
+                                placeholder="Issue Date"
+                            />
 
-    .header {
-        text-align: center;
-        line-height: 1.3;
-    }
-
-    .header h2 {
-        margin: 5px 0;
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .college {
-        margin-top: 10px;
-        font-weight: bold;
-    }
-
-    .title {
-        text-align: center;
-        margin: 40px 0;
-        font-size: 32px;
-        letter-spacing: 2px;
-    }
-
-    .content {
-        font-size: 14px;
-        text-align: justify;
-        line-height: 1.8;
-    }
-
-    .content p {
-        margin-bottom: 18px;
-    }
-
-    .issue {
-        margin-top: 25px;
-    }
-
-    .signature {
-        position: absolute;
-        right: 1in;
-        bottom: 2in;
-        text-align: center;
-    }
-
-    .signature .name {
-        font-weight: bold;
-        text-decoration: underline;
-    }
-
-    .footer {
-        position: absolute;
-        left: 1in;
-        bottom: 1in;
-        font-size: 10px;
-    }
-
-    .doc-box {
-        margin-top: 10px;
-        border: 1px solid black;
-        padding: 10px;
-        width: 200px;
-    }
-
-    /* ✅ PRINT PERFECT */
-    @page {
-        size: letter;
-        margin: 0;
-    }
-
-    @media print {
-        body {
-            margin: 0;
-        }
-
-        .certificate-wrapper {
-            background: white;
-            padding: 0;
-        }
-
-        .certificate {
-            box-shadow: none;
-            margin: 0;
-            width: 8.5in;
-            height: 11in;
-        }
-    }
-`}</style>
-        </div>
+                            <div className="modal-buttons">
+                                <button type="submit" className="btn btn-save">
+                                    Save
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-cancel"
+                                    onClick={() => setShowModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </>
     );
-}
+};
+
+export default Certificate;

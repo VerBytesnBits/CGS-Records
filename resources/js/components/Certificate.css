@@ -1,0 +1,411 @@
+.cert-wrapper {
+    max-width: 760px;
+    margin: 40px auto;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.20);
+}
+
+.certificate {
+    position: relative;
+    background: #fff;
+    width: 100%;
+    aspect-ratio: 8.5 / 11;
+    overflow: hidden;
+
+}
+
+.watermark {
+    position: absolute;
+    inset: 0;
+    width: 120%;
+    height: 70%;
+    background-image: url('../IMAGE/NOBG-CGS1.png');
+    background-size: 70% 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 0;
+    pointer-events: none;
+
+    /* 🎯 Visual tuning */
+    opacity: 0.08;
+    /* lighter */
+    filter:
+        hue-rotate(20deg)
+        /* shift toward green */
+        saturate(160%)
+        /* boost color richness */
+        brightness(1.1);
+    /* slightly brighter */
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.watermark-image {
+    width: 2000px;
+    height: 500px;
+    object-fit: fill;
+}
+
+/* ─── CONTENT LAYER ─── */
+.cert-content {
+    position: absolute;
+    top: 1in;
+    left: 1in;
+    right: 1in;
+    bottom: 1in;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cert-header {
+    display: grid;
+    grid-template-columns: 90px 1fr 90px;
+    /* LEFT | CENTER | RIGHT */
+    align-items: center;
+    width: 100%;
+    padding-top: 2%;
+}
+
+/* LEFT LOGO */
+.cert-header .logo-left {
+    width: 75px;
+    height: auto;
+    justify-self: start;
+}
+
+/* RIGHT LOGO */
+.cert-header .logo-right {
+    width: 75px;
+    height: auto;
+    justify-self: end;
+}
+
+/* CENTER TEXT */
+.cert-header-text {
+    text-align: center;
+    line-height: 1.2;
+    font-family: 'bookmanoldstyle';
+    font-size: 12pt;
+}
+
+
+.cert-institute {
+    font-family: 'BookManOldStyleBold';
+    font-size: 12pt;
+}
+
+
+.cert-college {
+    font-family: 'BookManOldStyleBold';
+    margin-top: 6px;
+    font-size: 12pt;
+    line-height: 2;
+}
+
+.cert-head {
+    font-family: 'BookManOldStyleBold';
+    font-size: 26pt;
+    letter-spacing: 2px;
+    padding: 10% 0 10% 0;
+
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── BODY — centered in remaining space, pushed slightly up ─── */
+.cert-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: justify;
+    justify-content: flex-start;
+    /* change from center */
+    font-family: 'bookmanoldstyle';
+}
+
+.cert-given-to {
+    font-family: 'bookmanoldstyle';
+    font-size: clamp(7.5px, 1.45vw, 12.5px);
+    margin: 0 0 1% 0;
+    line-height: 1.4;
+    margin-top: 2%;
+    /* reduce */
+    padding-bottom: 2%;
+}
+
+.cert-name {
+    font-family: 'bookmanoldstyle';
+    font-weight: bold;
+    font-size: clamp(14px, 2.6vw, 22px);
+    letter-spacing: 0.5px;
+    color: #000;
+    margin: 0 0 2.5% 0;
+    line-height: 1.2;
+}
+
+.cert-para1,
+.cert-para2 {
+    font-size: 12pt;
+    margin-bottom: 12px;
+    /* add breathing space */
+    line-height: 1.2;
+    /* improve readability */
+    text-align: justify;
+}
+
+.cert-para2 {
+    text-indent: 50px;
+    /* slightly stronger indent */
+}
+
+p.cert-para1 {
+     margin-bottom: 5%;
+    font-family: 'BookManOldStyleBold';
+}
+
+
+
+
+.cert-issue {
+    font-family: 'bookmanoldstyle';
+    font-size: 12pt;
+    line-height: 1.2;
+    margin: 0.5% 0 0 0;
+    text-align: justify;
+    text-indent: 40px;
+}
+
+/* ─── SIGNATURE ─── */
+.cert-signature {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* push to right */
+    margin-top: 40px;
+}
+
+.cert-sig-name {
+    font-family: 'BookManOldStyleBold';
+    font-weight: bold;
+    font-size: clamp(9px, 1.6vw, 14px);
+    line-height: 1.45;
+    margin: 0;
+}
+
+.cert-sig-title {
+    font-family: 'BookManOldStyle';
+    font-size: clamp(9px, 1.6vw, 14px);
+    line-height: 1.45;
+    margin: 0;
+    padding-bottom: 15%;
+}
+.sig-block {
+    text-align: center; /* keeps name centered inside block */
+    min-width: 260px;   /* controls width of signature area */
+}
+
+
+.cert-footer {
+    flex-shrink: 0;
+    text-align: left;
+    width: 100%;
+    padding-bottom: 0.5%;
+    margin-bottom: 3%;
+    /* ← ADD THIS — raises it up on screen */
+}
+
+.cert-foot {
+    position: relative;
+    z-index: 1;
+    margin-top: 20px;
+    page-break-inside: avoid;
+    /* Prevent breaking inside footer */
+    page-break-before: avoid;
+    /* Keep with signature */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Align to left */
+}
+
+.cert-not-valid {
+    font-size: clamp(5.5px, 0.78vw, 8px);
+    margin: 0 0 2px 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* BASE — on-screen (matches your screenshot 1) */
+.cert-stamp-box {
+    border: 1.5px solid #000;
+    padding: 8px 12px;
+    /* was 12px — too large */
+    width: 160px;
+    /* was 220px — too wide */
+    font-size: clamp(5.5px, 0.78vw, 8px);
+    line-height: 1.55;
+    background: rgba(255, 255, 255, 0.80);
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    page-break-inside: avoid;
+    page-break-after: avoid;
+}
+
+.certificate-controls {
+    display: flex;
+    justify-content: center;
+    /* center horizontally */
+    gap: 12px;
+    /* space between buttons */
+    margin-bottom: 20px;
+    /* space below controls */
+    flex-wrap: wrap;
+    /* wrap on smaller screens */
+}
+
+.certificate-controls .btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-edit {
+    background-color: #4caf50;
+    /* green */
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #45a049;
+}
+
+.btn-print {
+    background-color: #2196f3;
+    /* blue */
+    color: white;
+}
+
+.btn-print:hover {
+    background-color: #1e88e5;
+}
+
+.btn-reset {
+    background-color: #f44336;
+    /* red */
+    color: white;
+}
+
+.btn-reset:hover {
+    background-color: #d32f2f;
+}
+
+.certificate-controls .btn i {
+    font-size: 14px;
+    /* icon size */
+}
+
+/* Overlay background */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    /* semi-transparent dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Modal box */
+.modal-content {
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: slideDown 0.3s ease;
+}
+
+/* Form inside modal */
+.modal-form input {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Modal buttons */
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-save {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background-color: #45a049;
+}
+
+.btn-cancel {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    background-color: #d32f2f;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
