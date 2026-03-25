@@ -160,7 +160,7 @@ const CarCertificate: React.FC = () => {
         top: 3% !important;
         left: 9% !important;
         right: 9% !important;
-        bottom: 10% !important;
+        bottom: 11% !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;

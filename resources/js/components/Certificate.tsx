@@ -83,7 +83,7 @@ const Certificate: React.FC = () => {
     const resetToDefault = () => setData(defaultData);
 
     const printCertificate = () => {
-        const target = document.getElementById("carCertificatePreview");
+        const target = document.getElementById("CertificatePreview");
         if (!target) return;
 
         const style = document.createElement("style");
@@ -149,11 +149,11 @@ const Certificate: React.FC = () => {
         top: 1in !important;
         left: 1in !important;
         right: 1in !important;
-        bottom: 1in !important;
+        bottom: 1.1in !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        overflow: hidden !important;
+        overflow: visible !important;
         transform-origin: top center !important;
     }
 
@@ -243,13 +243,17 @@ const Certificate: React.FC = () => {
     }
 
     .cert-stamp-box {
-        border: 1.5px solid #000 !important;
+      border: 1.5px solid #000 !important;
         padding: 8px 12px !important;
-        width: 160px !important;
+        width: 180px !important;
         font-size: 8pt !important;
+        line-height: 1.55 !important;
         background: rgba(255,255,255,0.80) !important;
+        margin: 0 !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
-
+        
     nav, footer, .certificate-controls {
         display: none !important;
     }
