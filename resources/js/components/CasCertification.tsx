@@ -86,7 +86,7 @@ const CasCertification: React.FC = () => {
 
     // Print certificate
     const printCertificate = () => {
-        const target = document.getElementById("carCertificatePreview");
+        const target = document.getElementById("casCertificatePreview");
         if (!target) return;
 
         const style = document.createElement("style");
@@ -113,10 +113,10 @@ const CasCertification: React.FC = () => {
 
     body * { visibility: hidden !important; }
 
-    #carCertificatePreview,
-    #carCertificatePreview * { visibility: visible !important; }
+    #casCertificatePreview,
+    #casCertificatePreview * { visibility: visible !important; }
 
-    #carCertificatePreview {
+    #casCertificatePreview {
         position: fixed !important;
         inset: 0 !important;
         width: 100vw !important;
@@ -285,21 +285,36 @@ const CasCertification: React.FC = () => {
 
     return (
         <>
-            {/* Controls */}
-            <div className="certificate-controls">
-                <button className="btn btn-edit" onClick={() => setShowModal(true)}>
-                    <i className="fas fa-edit"></i> Edit
-                </button>
-                <button className="btn btn-print" onClick={printCertificate}>
-                    <i className="fas fa-print"></i> Print
-                </button>
-                <button className="btn btn-reset" onClick={resetToDefault}>
-                    <i className="fas fa-undo"></i> Reset
-                </button>
+
+            <div className="certificate-controls flex flex-col gap-4">
+
+                {/* TOP: Title */}
+                <div className="CasTitle text-center">
+                    <div className="text-[50px] font-bold" id="CasTitle">CAS Certification</div>
+                    <p className="text-sm text-gray-600">
+                        Generate official Certificate of Academic Subjects for graduate students
+                    </p>
+                </div>
+
+                {/* BOTTOM: Buttons */}
+                <div className="flex justify-center gap-3 flex-wrap">
+                    <button className="btn btn-edit flex items-center gap-1" onClick={() => setShowModal(true)}>
+                        <i className="fas fa-edit"></i> Edit
+                    </button>
+
+                    <button className="btn btn-print flex items-center gap-1" onClick={printCertificate}>
+                        <i className="fas fa-print"></i> Print
+                    </button>
+
+                    <button className="btn btn-reset flex items-center gap-1" onClick={resetToDefault}>
+                        <i className="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+
             </div>
 
             {/* Certificate Preview */}
-            <div id="carCertificatePreview" className="car-cert-wrapper">
+            <div id="casCertificatePreview" className="car-cert-wrapper">
                 <div className="car-certificate">
                     <div className="car-bg-image"></div>
                     <div className="car-content">

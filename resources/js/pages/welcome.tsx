@@ -475,13 +475,41 @@ export default function Welcome() {
                     <span className="nav-logo-text">CGS</span>
                 </a>
 
-                <ul className="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#files">Files</a></li>
-                </ul>
 
+                <div className="flex items-center justify-between">
+
+                    {/* LEFT: NAV LINKS */}
+                    <ul className="flex gap-6 nav-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#files">Files</a></li>
+                    </ul>
+
+                    {/* RIGHT: BUTTON + DROPDOWN */}
+                    <div className="relative group ml-6">
+                        <button className="btn-primary">
+                            Generate
+                        </button>
+
+                        {/* Dropdown */}
+                        <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg 
+                    opacity-0 invisible 
+                    group-hover:visible group-hover:opacity-100 
+                    transform translate-y-1 group-hover:translate-y-0 
+                    transition-all duration-300 ease-out">
+
+                            <ul>
+                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 1</li>
+                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 2</li>
+                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    <a href="#CasTitle">CasCertification</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
                 <div className="nav-actions">
                     {auth?.user ? (
                         <Link href="/dashboard" className="btn-ghost">Dashboard</Link>
@@ -491,20 +519,7 @@ export default function Welcome() {
                             <Link href="/register" className="btn-outline">Register</Link>
                         </>
                     )}
-                    <div className="relative group inline-block">
-                        <button className="btn-primary">
-                            Generate
-                        </button>
 
-                        {/* Smooth dropdown menu */}
-                        <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transform translate-y-1 group-hover:translate-y-0 transition-all duration-300 ease-out">
-                            <ul>
-                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 1</li>
-                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 2</li>
-                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 3</li>
-                            </ul>
-                        </div>
-                    </div>
 
                 </div>
             </nav>
@@ -615,7 +630,7 @@ export default function Welcome() {
             <CarCertifica />
             <CarRating />
             <CasCertification />
-            
+
             {/* FOOTER */}
             <footer className="footer">
                 © {new Date().getFullYear()} <span>College of Graduate Studies</span> — Palompon Institute of Technology
