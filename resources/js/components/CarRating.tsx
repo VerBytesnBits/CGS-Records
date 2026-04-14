@@ -1,6 +1,6 @@
 // CARRating.tsx
 import React, { useState } from 'react';
-
+import "./CarRating.css";
 interface RatingArea {
   area: string;
   rating: string;
@@ -56,119 +56,52 @@ const CertificateHalf: React.FC<{ data: CARData }> = ({ data }) => {
   const programLabel = data.programLevel === 'doctors' ? '(DOCTORAL PROGRAM)' : "(MASTER'S PROGRAM)";
 
   return (
-    <div
-      className="flex-1 flex flex-col items-center px-6 py-5 font-serif"
-      style={{ fontFamily: "'Times New Roman', serif", color: 'black' }}
-    >
-      {/* Header with logos and title */}
-      <div className="flex items-center justify-center w-full gap-4 pt-4">
-        <img
-          src="/path/to/yellow-logo.png"
-          alt="Left Logo"
-          className="w-16 h-16 object-contain"
-          style={{ flexShrink: 0 }}
-        />
-        <div className="text-center flex-1" style={{ lineHeight: 1.1, fontSize: 13, fontWeight: 'normal' }}>
-          <p style={{ fontWeight: 'bold', margin: 0 }}>PALOMPON INSTITUTE OF TECHNOLOGY</p>
-          <p style={{ margin: 0 }}>COLLEGE OF GRADUATE STUDIES</p>
-          <p style={{ margin: 0 }}>Palompon, Leyte</p>
+    <div className="container">
+      {/* Header */}
+      <div className="header">
+        <img src="/IMAGE/pit_logo.jpg" alt="Left Logo" className="logo" />
+
+        <div className="header-text">
+          <p className="bold">PALOMPON INSTITUTE OF TECHNOLOGY</p>
+          <p>COLLEGE OF GRADUATE STUDIES</p>
+          <p>Palompon, Leyte</p>
         </div>
-        <img
-          src="/path/to/green-logo.png"
-          alt="Right Logo"
-          className="w-16 h-16 object-contain"
-          style={{ flexShrink: 0 }}
-        />
+
+        <img src="/IMAGE/nobg_cgs.png" alt="Right Logo" className="logo" />
       </div>
 
       {/* Title */}
-      <div className="text-center w-full mt-2" style={{ fontSize: 13, fontWeight: 'bold', lineHeight: 1.2 }}>
-        <p style={{ margin: 0 }}>COMPREHENSIVE EXAMINATION</p>
-        <p style={{ margin: '0 0 8px 0' }}>REPORT OF RATING</p>
-        <p style={{ margin: 0 }}>{programLabel}</p>
+      <div className="title">
+        <p>COMPREHENSIVE EXAMINATION</p>
+        <p className="mb">REPORT OF RATING</p>
+        <p>{programLabel}</p>
       </div>
 
-      {/* Examinee Info Box */}
-      <div
-        style={{
-          border: '4px double black',
-          borderRadius: 12,
-          padding: '12px 16px',
-          width: '100%',
-          marginTop: 24,
-          fontSize: 13,
-          lineHeight: 1.3,
-          fontWeight: 'normal',
-          color: 'black',
-        }}
-      >
-        <p style={{ margin: '4px 0' }}>
-          Examinee:{' '}
-          <strong style={{ fontWeight: 'bold' }}>
-            {fullName}
-          </strong>
-        </p>
-        <p style={{ margin: '4px 0' }}>
-          Examinee Number:{' '}
-          <strong style={{ fontWeight: 'bold' }}>{data.examineeNumber}</strong>
-        </p>
-        <p style={{ margin: '4px 0' }}>
-          Program & Specialization:{' '}
-          <strong style={{ fontWeight: 'bold' }}>{data.programShort}</strong>
-        </p>
-        <p style={{ margin: '4px 0' }}>
-          Date of Examination:{' '}
-          <strong style={{ fontWeight: 'bold' }}>{data.examDate}</strong>
-        </p>
+      {/* Examinee Info */}
+      <div className="box">
+        <p>Examinee: <strong>{fullName}</strong></p>
+        <p>Examinee Number: <strong>{data.examineeNumber}</strong></p>
+        <p>Program & Specialization: <strong>{data.programShort}</strong></p>
+        <p>Date of Examination: <strong>{data.examDate}</strong></p>
       </div>
 
-      {/* Rating Box */}
-      <p
-        style={{
-          fontSize: 13,
-          fontWeight: 'bold',
-          marginTop: 32,
-          marginBottom: 8,
-          width: '100%',
-          textAlign: 'center',
-          letterSpacing: 0.5,
-        }}
-      >
-        COMPREHENSIVE RATING OF EXAMINEE
-      </p>
+      {/* Rating Title */}
+      <p className="s">COMPREHENSIVE RATING OF EXAMINEE</p>
 
-      <div
-        style={{
-          border: '4px double black',
-          borderRadius: 12,
-          padding: '12px 16px',
-          width: '100%',
-          fontSize: 13,
-          color: 'black',
-          fontWeight: 'normal',
-          lineHeight: 1.3,
-        }}
-      >
-        <table
-          style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            fontSize: 13,
-            color: 'black',
-          }}
-          aria-label="Rating Table"
-        >
+      {/* Table */}
+      <div className="box">
+        <table className="table">
           <thead>
             <tr>
-              <th style={{ textAlign: 'left', paddingBottom: 8, fontWeight: 'bold' }}>Area</th>
-              <th style={{ textAlign: 'left', paddingBottom: 8, fontWeight: 'bold' }}>Rating</th>
+              <th>Area</th>
+              <th>Rating</th>
             </tr>
           </thead>
           <tbody>
             {data.areas.map((row, idx) => (
               <tr key={idx}>
-                <td style={{ padding: '2px 0' }}>{row.area}</td>
-                <td style={{ padding: '2px 0', fontWeight: 'bold' }}>{row.rating}</td>
+                <td>{row.area}</td>
+                <td className="bold">{row.rating}</td>
               </tr>
             ))}
           </tbody>
@@ -176,54 +109,23 @@ const CertificateHalf: React.FC<{ data: CARData }> = ({ data }) => {
       </div>
 
       {/* Note */}
-      <p
-        style={{
-          fontSize: 12,
-          fontWeight: 'normal',
-          marginTop: 24,
-          width: '100%',
-          lineHeight: 1.3,
-          textAlign: 'left',
-        }}
-      >
-        Note: This is the{' '}
-        <span>(<strong>x</strong>)</span> first{' '}
-        <span>( )</span> second time the student took the examination in{' '}
-        <strong style={{ textDecoration: 'underline' }}>All Areas.</strong>
+      <p className="note">
+        Note: This is the (<strong>x</strong>) first ( ) second time the student took the examination in{' '}
+        <strong className="underline">All Areas.</strong>
       </p>
 
-      {/* Signature */}
-      <div
-        style={{
-          marginTop: 48,
-          width: '100%',
-          textAlign: 'center',
-          fontSize: 13,
-          fontWeight: 'bold',
-          textDecoration: 'underline',
-          lineHeight: 1.1,
-          userSelect: 'none',
-        }}
-      >
-        JENNIFER A. GORUMBA, EdD
-        <p style={{ fontWeight: 'normal', textDecoration: 'none', marginTop: 4 }}>Dean</p>
+      {/* SIGNATURE */}
+      <div className="car-signature">
+        <p className="car-sig-name"><strong>JENNIFER A. GORUMBA, EdD</strong></p>
+        <p className="car-sig-title">Dean</p>
       </div>
 
-      {/* Footer */}
-      <div style={{ width: '100%', marginTop: 48, fontSize: 8, color: 'black', userSelect: 'none' }}>
-        <p style={{ margin: 0 }}>NOT VALID WITHOUT SEAL</p>
-        <div
-          style={{
-            border: '1px solid black',
-            width: 120,
-            padding: '2px 4px',
-            marginTop: 4,
-            backgroundColor: 'white',
-            lineHeight: 1.1,
-          }}
-        >
-          <p style={{ margin: 0, fontWeight: 'normal' }}>DOC STAMP PAID ₱ 30.00</p>
-          <p style={{ margin: 0, fontWeight: 'normal' }}>OR NO. _______________</p>
+      {/* FOOTER */}
+      <div className="car-footer">
+        <p className="car-not-valid">NOT VALID WITHOUT SEAL</p>
+        <div className="car-stamp-box">
+          <p>DOC STAMP PAID ₱ 30.00</p>
+          <p>OR NO. _______________</p>
         </div>
       </div>
     </div>

@@ -6,6 +6,9 @@ import CarCertifica from "../components/CarCertifica";
 import CarCertificate from "../components/CarCertificate";
 import CarRating from "@/components/CarRating";
 import Certificate from "@/components/Certificate";
+import CasCertification from '@/components/CasCertification';
+
+
 export default function Welcome() {
     const { auth } = usePage().props as any;
     const [scrolled, setScrolled] = useState(false);
@@ -24,12 +27,14 @@ export default function Welcome() {
                 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
 
                 * { box-sizing: border-box; }
-
+                html {
+                        scroll-behavior: smooth;
+                    }
                 body {
                     font-family: 'DM Sans', sans-serif;
                     margin: 0;
                 }
-
+                
                 .display-font { font-family: 'Cormorant Garamond', serif; }
 
                 /* NAV */
@@ -486,7 +491,21 @@ export default function Welcome() {
                             <Link href="/register" className="btn-outline">Register</Link>
                         </>
                     )}
-                    <button className="btn-primary">Generate →</button>
+                    <div className="relative group inline-block">
+                        <button className="btn-primary">
+                            Generate
+                        </button>
+
+                        {/* Smooth dropdown menu */}
+                        <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transform translate-y-1 group-hover:translate-y-0 transition-all duration-300 ease-out">
+                            <ul>
+                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 1</li>
+                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 2</li>
+                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 3</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </nav>
 
@@ -589,11 +608,14 @@ export default function Welcome() {
                         </div>
                     ))}
                 </div>
+
             </section>
+
             <Certificate />
-            {/* <CarCertificate /> */}
             <CarCertifica />
             <CarRating />
+            <CasCertification />
+            
             {/* FOOTER */}
             <footer className="footer">
                 © {new Date().getFullYear()} <span>College of Graduate Studies</span> — Palompon Institute of Technology
