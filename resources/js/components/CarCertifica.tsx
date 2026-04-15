@@ -285,18 +285,34 @@ const CarCertificate: React.FC = () => {
 
     return (
         <>
-            {/* Controls */}
-            <div className="certificate-controls">
-                <button className="btn btn-edit" onClick={() => setShowModal(true)}>
-                    <i className="fas fa-edit"></i> Edit
-                </button>
-                <button className="btn btn-print" onClick={printCertificate}>
-                    <i className="fas fa-print"></i> Print
-                </button>
-                <button className="btn btn-reset" onClick={resetToDefault}>
-                    <i className="fas fa-undo"></i> Reset
-                </button>
+            <div className=" flex flex-col gap-4">
+
+                {/* TOP: Title */}
+                <div className="CasTitle text-center">
+                    <div className="text-[50px] font-bold text-slate-600" id="CARTitle">CAR Certification</div>
+                    <p className="text-sm text-gray-600">
+                        Generate official Certificate of Academic Requirements for graduate students
+                    </p>
+                </div>
+
+                {/* BOTTOM: Buttons */}
+                <div className="flex justify-center gap-3 flex-wrap">
+                    <div className="certificate-controls">
+                        <button className="btn btn-edit" onClick={() => setShowModal(true)}>
+                            <i className="fas fa-edit"></i> Edit
+                        </button>
+                        <button className="btn btn-print" onClick={printCertificate}>
+                            <i className="fas fa-print"></i> Print
+                        </button>
+                        <button className="btn btn-reset" onClick={resetToDefault}>
+                            <i className="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
             </div>
+            {/* Controls */}
+
 
             {/* Certificate Preview */}
             <div id="carCertificatePreview" className="car-cert-wrapper">

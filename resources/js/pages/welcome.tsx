@@ -483,28 +483,45 @@ export default function Welcome() {
                         <li><a href="#home">Home</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#services">Services</a></li>
-                        <li><a href="#files">Files</a></li>
                     </ul>
 
-                    {/* RIGHT: BUTTON + DROPDOWN */}
-                    <div className="relative group ml-6">
-                        <button className="btn-primary">
+                    <div className="relative ml-6 group">
+                        {/* BUTTON */}
+                        <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg 
+    bg-gradient-to-r from-teal-400 to-lime-400 text-white 
+    shadow-md hover:shadow-lg 
+    transition-all duration-300">
+
                             Generate
+                            <span className="text-xs">▼</span>
                         </button>
 
-                        {/* Dropdown */}
-                        <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg 
-                    opacity-0 invisible 
-                    group-hover:visible group-hover:opacity-100 
-                    transform translate-y-1 group-hover:translate-y-0 
-                    transition-all duration-300 ease-out">
+                        {/* DROPDOWN */}
+                        <div className="absolute right-0 mt-3 w-48 
+                                        bg-white rounded-xl shadow-xl border border-gray-100 
+                                        overflow-hidden
+                                        opacity-0 scale-95 translate-y-2
+                                        group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0
+                                        transition-all duration-200 ease-out
+                                    ">
+                            <ul className="py-2 text-sm text-gray-700">
 
-                            <ul>
-                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 1</li>
-                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 2</li>
-                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                    <a href="#CasTitle">CasCertification</a>
+                                <li className="px-4 py-2 hover:bg-teal-50 hover:text-teal-600 cursor-pointer transition">
+                                    📄 Option 1
                                 </li>
+
+                                <li className="px-4 py-2 hover:bg-teal-50 hover:text-teal-600 cursor-pointer transition">
+                                    <a href="#CARTitle" className="block w-full">
+                                        🎓 CAR Certification
+                                    </a>
+                                </li>
+
+                                <li className="px-4 py-2 hover:bg-teal-50 hover:text-teal-600 cursor-pointer transition">
+                                    <a href="#CasTitle" className="block w-full">
+                                        🎓 CAS Certification
+                                    </a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>

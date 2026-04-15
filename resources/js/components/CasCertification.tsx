@@ -286,11 +286,11 @@ const CasCertification: React.FC = () => {
     return (
         <>
 
-            <div className="certificate-controls flex flex-col gap-4">
+            <div className=" flex flex-col gap-4 mt-15">
 
                 {/* TOP: Title */}
                 <div className="CasTitle text-center">
-                    <div className="text-[50px] font-bold" id="CasTitle">CAS Certification</div>
+                    <div className="text-[50px] font-bold text-slate-600" id="CasTitle">CAS Certification</div>
                     <p className="text-sm text-gray-600">
                         Generate official Certificate of Academic Subjects for graduate students
                     </p>
@@ -298,17 +298,19 @@ const CasCertification: React.FC = () => {
 
                 {/* BOTTOM: Buttons */}
                 <div className="flex justify-center gap-3 flex-wrap">
-                    <button className="btn btn-edit flex items-center gap-1" onClick={() => setShowModal(true)}>
-                        <i className="fas fa-edit"></i> Edit
-                    </button>
+                    <div className="certificate-controls">
+                        <button className="btn btn-edit flex items-center gap-1" onClick={() => setShowModal(true)}>
+                            <i className="fas fa-edit"></i> Edit
+                        </button>
 
-                    <button className="btn btn-print flex items-center gap-1" onClick={printCertificate}>
-                        <i className="fas fa-print"></i> Print
-                    </button>
+                        <button className="btn btn-print flex items-center gap-1" onClick={printCertificate}>
+                            <i className="fas fa-print"></i> Print
+                        </button>
 
-                    <button className="btn btn-reset flex items-center gap-1" onClick={resetToDefault}>
-                        <i className="fas fa-undo"></i> Reset
-                    </button>
+                        <button className="btn btn-reset flex items-center gap-1" onClick={resetToDefault}>
+                            <i className="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
                 </div>
 
             </div>

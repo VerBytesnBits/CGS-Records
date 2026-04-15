@@ -218,7 +218,6 @@
     display: flex;
     justify-content: center;  /* center horizontally */
     gap: 12px;                /* space between buttons */
-    margin-bottom: 20px;      /* space below controls */
     flex-wrap: wrap;           /* wrap on smaller screens */
 }
 
@@ -340,9 +339,6 @@
   background-color: #d32f2f;
 }
 
-.CasTitle{
-    font-size: larger;
-}
 
 /* Animations */
 @keyframes fadeIn {

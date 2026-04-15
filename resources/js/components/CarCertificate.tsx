@@ -45,22 +45,22 @@ const CarCertificate: React.FC = () => {
     "Master of Arts in Education major in Science",
   ];
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target;
 
     // Narrow down if it's a checkbox
     if (target instanceof HTMLInputElement && target.type === "checkbox") {
-        setData({
-            ...data,
-            [target.name]: target.checked, // use 'checked' for checkboxes
-        });
+      setData({
+        ...data,
+        [target.name]: target.checked, // use 'checked' for checkboxes
+      });
     } else {
-        setData({
-            ...data,
-            [target.name]: target.value,
-        });
+      setData({
+        ...data,
+        [target.name]: target.value,
+      });
     }
-};
+  };
 
   // Update certificate info
   const handleEditSubmit = (e: React.FormEvent) => {
@@ -102,19 +102,34 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 
   return (
     <section id="certificate" className="section">
-     
-      {/* Controls */}
-      <div className="certificate-controls">
-        <button className="btn btn-primary" onClick={() => setShowEditModal(true)}>
-          <i className="fas fa-edit"></i> Edit Certificate Data
-        </button>
-        <button className="btn btn-success" onClick={printCertificate}>
-          <i className="fas fa-print"></i> Print Certificate
-        </button>
-        <button className="btn btn-secondary" onClick={resetToDefault}>
-          <i className="fas fa-undo"></i> Reset to Default
-        </button>
+      <div className="certificate-controls flex flex-col gap-4">
+
+        {/* TOP: Title */}
+        <div className="CasTitle text-center">
+          <div className="text-[50px] font-bold text-slate-600" id="CasTitle">CAS Certification</div>
+          <p className="text-sm text-gray-600">
+            Generate official Certificate of Academic Subjects for graduate students
+          </p>
+        </div>
+
+        {/* BOTTOM: Buttons */}
+        <div className="flex justify-center gap-3 flex-wrap">
+          <div className="certificate-controls">
+            <button className="btn btn-primary" onClick={() => setShowEditModal(true)}>
+              <i className="fas fa-edit"></i> Edit Certificate Data
+            </button>
+            <button className="btn btn-success" onClick={printCertificate}>
+              <i className="fas fa-print"></i> Print Certificate
+            </button>
+            <button className="btn btn-secondary" onClick={resetToDefault}>
+              <i className="fas fa-undo"></i> Reset to Default
+            </button>
+          </div>
+        </div>
+
       </div>
+      {/* Controls */}
+
 
       {/* Certificate Preview */}
       <div className="certificate-container">

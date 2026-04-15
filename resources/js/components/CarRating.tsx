@@ -195,14 +195,14 @@ const CARRating: React.FC = () => {
     editData.programLevel === 'doctors' ? '(DOCTORAL PROGRAM)' : "(MASTER'S PROGRAM)";
 
   return (
-    <div >
+    <div className='flex flex-col gap-4'>
       {/* Controls - hidden when printing */}
-      <div className="p-4 print:hidden">
-        <h2 className="text-xl font-bold mb-2">CAR Rating</h2>
+      <div className="p-4 print:hidden text-center">
+        <h2 className="text-[50px] font-bold text-slate-600">CAR Rating</h2>
         <p className="text-gray-600 text-sm mb-4">
           Generate the Comprehensive Examination Report of Rating for graduate students.
         </p>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap justify-center">
           <button
             onClick={openModal}
             className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm flex items-center gap-1 hover:bg-blue-700"
@@ -239,7 +239,7 @@ const CARRating: React.FC = () => {
       {/* Edit Modal */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center print:hidden"
+          className="fixed inset-0 bg-black/50 z-99999 flex justify-center items-center print:hidden"
           onClick={(e) => e.target === e.currentTarget && closeModal()}
         >
           <div className="bg-white rounded-lg w-[95%] max-w-[700px] max-h-[90vh] overflow-y-auto shadow-2xl">
@@ -399,35 +399,35 @@ const CARRating: React.FC = () => {
                   </button>
                 </div>
               </div>
+              <div className='flex flex-row justify-between'>
+                {/* Overall Rating */}
+                <div className="mb-6">
+                  <h3 className="text-sm font-semibold text-gray-600 mb-2">Overall Rating</h3>
+                  <select
+                    value={editData.overallRating}
+                    onChange={(e) => setEditData((p) => ({ ...p, overallRating: e.target.value }))}
+                    className="w-60 p-2 border rounded text-sm"
+                  >
+                    <option value="PASSED">PASSED</option>
+                    <option value="FAILED">FAILED</option>
+                  </select>
+                </div>
 
-              {/* Overall Rating */}
-              <div className="mb-6">
-                <h3 className="text-sm font-semibold text-gray-600 mb-2">Overall Rating</h3>
-                <select
-                  value={editData.overallRating}
-                  onChange={(e) => setEditData((p) => ({ ...p, overallRating: e.target.value }))}
-                  className="w-60 p-2 border rounded text-sm"
-                >
-                  <option value="PASSED">PASSED</option>
-                  <option value="FAILED">FAILED</option>
-                </select>
+                {/* Attempt */}
+                <div className="">
+                  <h3 className="text-sm font-semibold text-gray-600 mb-2">
+                    Attempt (how many times took the exam)
+                  </h3>
+                  <select
+                    value={editData.attempt}
+                    onChange={(e) => setEditData((p) => ({ ...p, attempt: e.target.value as 'first' | 'second' }))}
+                    className="w-60 p-2 border rounded text-sm"
+                  >
+                    <option value="first">First</option>
+                    <option value="second">Second</option>
+                  </select>
+                </div>
               </div>
-
-              {/* Attempt */}
-              <div className="mb-6">
-                <h3 className="text-sm font-semibold text-gray-600 mb-2">
-                  Attempt (how many times took the exam)
-                </h3>
-                <select
-                  value={editData.attempt}
-                  onChange={(e) => setEditData((p) => ({ ...p, attempt: e.target.value as 'first' | 'second' }))}
-                  className="w-60 p-2 border rounded text-sm"
-                >
-                  <option value="first">First</option>
-                  <option value="second">Second</option>
-                </select>
-              </div>
-
               {/* Buttons */}
               <div className="flex justify-end gap-3">
                 <button
