@@ -286,9 +286,9 @@ const CarCertificate: React.FC = () => {
     return (
         <>
             <div className=" flex flex-col gap-4">
-
+                {/* Controls */}
                 {/* TOP: Title */}
-                <div className="CasTitle text-center">
+                <div className="text-center">
                     <div className="text-[50px] font-bold text-slate-600" id="CARTitle">CAR Certification</div>
                     <p className="text-sm text-gray-600">
                         Generate official Certificate of Academic Requirements for graduate students
@@ -311,7 +311,7 @@ const CarCertificate: React.FC = () => {
                 </div>
 
             </div>
-            {/* Controls */}
+
 
 
             {/* Certificate Preview */}

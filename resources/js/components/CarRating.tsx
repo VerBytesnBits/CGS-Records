@@ -196,33 +196,32 @@ const CARRating: React.FC = () => {
 
   return (
     <div className='flex flex-col gap-4'>
+
       {/* Controls - hidden when printing */}
       <div className="p-4 print:hidden text-center">
         <h2 className="text-[50px] font-bold text-slate-600">CAR Rating</h2>
         <p className="text-gray-600 text-sm mb-4">
           Generate the Comprehensive Examination Report of Rating for graduate students.
         </p>
-        <div className="flex gap-2 flex-wrap justify-center">
-          <button
-            onClick={openModal}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm flex items-center gap-1 hover:bg-blue-700"
-          >
-            ✏️ Edit CAR Rating Data
-          </button>
-          <button
-            onClick={handlePrint}
-            className="px-4 py-2 bg-green-600 text-white rounded-md text-sm flex items-center gap-1 hover:bg-green-700"
-          >
-            🖨️ Print CAR Rating
-          </button>
-          <button
-            onClick={resetToDefault}
-            className="px-4 py-2 bg-gray-500 text-white rounded-md text-sm flex items-center gap-1 hover:bg-gray-600"
-          >
-            ↩️ Reset to Default
-          </button>
+            {/* Controls */}
+        {/* BOTTOM: Buttons */}
+        <div className="flex justify-center gap-3 flex-wrap">
+          <div className="certificate-controls">
+            <button className="btn btn-edit" onClick={openModal}>
+              <i className="fas fa-edit"></i> Edit
+            </button>
+            <button className="btn btn-print" onClick={handlePrint}>
+              <i className="fas fa-print"></i> Print
+            </button>
+            <button className="btn btn-reset" onClick={resetToDefault}>
+              <i className="fas fa-undo"></i> Reset
+            </button>
+          </div>
         </div>
       </div>
+
+
+
 
       {/* LANDSCAPE PAPER */}
       <div className="car-landscape-wrapper">

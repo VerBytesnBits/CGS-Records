@@ -54,7 +54,7 @@ const defaultData: CertificateData = {
 };
 
 const Certificate: React.FC = () => {
-   const [data, setData] = useState<CertificateData>(() => ({
+    const [data, setData] = useState<CertificateData>(() => ({
         ...defaultData,
         issueDate: new Date().toISOString().split("T")[0],
     }));
@@ -112,10 +112,10 @@ const Certificate: React.FC = () => {
 
 
     const resetToDefault = () =>
-    setData({
-        ...defaultData,
-        issueDate: new Date().toISOString().split("T")[0],
-    });
+        setData({
+            ...defaultData,
+            issueDate: new Date().toISOString().split("T")[0],
+        });
 
     const printCertificate = () => {
         const target = document.getElementById("CertificatePreview");
@@ -303,17 +303,36 @@ const Certificate: React.FC = () => {
     return (
         <>
             {/* Controls */}
-            <div className="certificate-controls">
-                <button className="btn btn-edit" onClick={() => setShowModal(true)}>
-                    <i className="fas fa-edit"></i> Edit
-                </button>
-                <button className="btn btn-print" onClick={printCertificate}>
-                    <i className="fas fa-print"></i> Print
-                </button>
-                <button className="btn btn-reset" onClick={resetToDefault}>
-                    <i className="fas fa-undo"></i> Reset
-                </button>
+            <div className=" flex flex-col gap-4 mt-15">
+
+                {/* TOP: Title */}
+                <div className=" text-center">
+                    <div className="text-[50px] font-bold text-slate-600" id="Certificate">Certificate Generator</div>
+                    <p className="text-sm text-gray-600">
+                        Generate official certifications for graduate students
+                    </p>
+                </div>
+
+                {/* BOTTOM: Buttons */}
+                <div className="flex justify-center gap-3 flex-wrap">
+                    <div className="certificate-controls">
+                        <button className="btn btn-edit flex items-center gap-1" onClick={() => setShowModal(true)}>
+                            <i className="fas fa-edit"></i> Edit
+                        </button>
+
+                        <button className="btn btn-print flex items-center gap-1" onClick={printCertificate}>
+                            <i className="fas fa-print"></i> Print
+                        </button>
+
+                        <button className="btn btn-reset flex items-center gap-1" onClick={resetToDefault}>
+                            <i className="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
             </div>
+
+
 
             {/* Certificate Preview */}
             <div id="CertificatePreview" className="cert-wrapper">
@@ -386,14 +405,14 @@ const Certificate: React.FC = () => {
                             </p>
                             <p className="cert-issue">
                                 Issued this{" "}
-                               <strong style={{ fontFamily: "Bookman Old Style" }}>
+                                <strong style={{ fontFamily: "Bookman Old Style" }}>
                                     {formattedDate.day}
                                     <sup>{formattedDate.suffix}</sup>
                                     {" "}day of {formattedDate.month}, {formattedDate.year}
                                 </strong>{" "}
                                 at the Palompon Institute of Technology, Palompon, Leyte.
                             </p>
-                           
+
                         </div>
 
                         {/* SIGNATURE */}

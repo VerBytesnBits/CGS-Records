@@ -3,7 +3,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import CarCertifica from "../components/CarCertifica";
-import CarCertificate from "../components/CarCertificate";
 import CarRating from "@/components/CarRating";
 import Certificate from "@/components/Certificate";
 import CasCertification from '@/components/CasCertification';
